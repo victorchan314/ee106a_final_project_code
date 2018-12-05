@@ -14,7 +14,7 @@ ap.add_argument("-b", "--buffer", type=int, default=64,
 args = vars(ap.parse_args())
 
 cap = cv2.VideoCapture(0)
-# 网球
+# 网球 color of tennis ball
 greenLower = (29, 86, 6)
 greenUpper = (64, 255, 255)
 """
@@ -25,7 +25,9 @@ blackUpper = (180, 255, 10)
 pts = deque(maxlen=args["buffer"])
 inst_cache = deque(maxlen=50)
 NUM = 0
-"""num = 0
+"""
+# old version 1
+num = 0
 RESULT = np.zeros((2, 1))
 RESULT_count = 0
 ZERO_count = 0
@@ -33,17 +35,21 @@ ZERO_count = 0
 Count = np.zeros((3, 1))
 """
 """
+# old version 2
 ins_queue = deque(maxlen=100)
 signal = []
 zero_count = 0
 plus_count = 0
 minus_count = 0
 """
+# file for write log
 f = open("C:/dhj-learning/berkeley/robotic/EE106AProject/trace_ball/updown.txt", "w+")
 while True:
-    # create background picture
+    """ used for analysis ball trace
     black = np.zeros((480, 640, 3), np.uint8)
     black.fill(0)
+    """
+    # create background picture
     # Capture frame-by-frame
     ret, frame = cap.read()
     # 第一个参数ret为True 或者False,代表有没有读取到图片，
@@ -66,8 +72,8 @@ while True:
     第三个  相应轮廓之间的关系
     """
     _, cnts, _ = cv2.findContours(green_mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    #print(cnts)
-    #time.sleep(100)
+    # print(cnts)
+    # time.sleep(100)
     center = None
     if len(cnts) > 0:
         c = max(cnts, key=cv2.contourArea)#原代码直接就是cv2.findCountours返回的值
@@ -91,7 +97,7 @@ while True:
 
         thickness = int(np.sqrt(args["buffer"] / float(i + 1)) * 2.5)
         cv2.line(frame, pts[i - 1], pts[i], (0, 0, 255), thickness)#加拖尾特效的线
-        cv2.line(black, pts[i - 1], pts[i], (0, 0, 225), thickness)
+        # cv2.line(black, pts[i - 1], pts[i], (0, 0, 225), thickness)
         #print("pts",pts[i])
     cv2.imshow("Frame", frame)
     # new added
@@ -155,6 +161,7 @@ while True:
             time.sleep(5)
 
     """
+    # old version 2
     result = analys_trace.f(black)
     ins_queue.append(result)
     print(ins_queue)
@@ -177,6 +184,7 @@ while True:
     """
 
     """
+    # old version 1
     num = num + 1
     #if num % 100 == 0:
         #cv2.imwrite("C:/dhj-learning/berkeley/robotic/EE106AProject/trace_ball/1-1.avi(%d).jpg" % num, black)
@@ -235,8 +243,4 @@ cv2.destroyAllWindows()
 第二个参数：kernel指腐蚀操作的内核，默认是一个简单的3X3矩阵，我们也可以利用getStructuringElement（）函数指明它的形状
 第三个参数：iterations指的是腐蚀次数，省略是默认为1
 --------------------- 
-作者：hjxu2016 
-来源：CSDN 
-原文：https://blog.csdn.net/hjxu2016/article/details/77837765 
-版权声明：本文为博主原创文章，转载请附上博文链接！
 """
