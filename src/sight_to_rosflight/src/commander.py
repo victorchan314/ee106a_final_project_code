@@ -2,6 +2,7 @@
 import rospy
 from rosflight_msgs.msg import Command
 from trace_ball.get_trace_of_ball_function import get_trace_of_ball
+from camera_color import capture_image, get_direction
 
 import signal
 import numpy as np
@@ -11,13 +12,20 @@ def handler(signum, frame):
 
 def call_computer_vision():
     # return [1, 2, 3, 4][np.random.randint(4)]
-    signal.alarm(30)
-    
+    # signal.alarm(30)
+    #
+    # d = -1
+    # try:
+    #     d = get_trace_of_ball()
+    # except Exception, exc:
+    #     pass
+    # 
+    # return d
     d = -1
-    try:
-        d = get_trace_of_ball()
-    except Exception, exc:
-        pass
+    capture_image()
+    rospy.sleep(10)
+    
+    d = get_direction()
     
     return d
 
@@ -33,14 +41,14 @@ def commander():
         command.mode = Command.MODE_ROLL_PITCH_YAWRATE_THROTTLE
         command.ignore = Command.IGNORE_NONE
         
-        if direction == 1:
+        if direction == 0:
             command.F = 0.1
-        elif direction == 2:
+        elif direction == 1:
             command.x = 0.1
             command.F = 0.1
-        elif direction == 3:
+        elif direction == 2:
             command.F = -0.1
-        elif direction == 4:
+        elif direction == 3:
             command.x = -0.1
             command.F = 0.1
         else:
