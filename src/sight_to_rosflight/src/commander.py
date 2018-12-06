@@ -4,6 +4,7 @@ from rosflight_msgs import Command
 
 def call_computer_vision():
     '''Placeholder function for a call to the CV module later'''
+    return 1
     pass
 
 def commander():
@@ -29,6 +30,7 @@ def commander():
             command.x = -0.1
             command.F = 0.1
 
+        print(command)
         pub.publish(command)
         rospy.sleep(10000)
 
