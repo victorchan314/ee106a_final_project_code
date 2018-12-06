@@ -7,8 +7,9 @@ def capture_image():
     os.system("fswebcam image.jpg")
 
 def get_image_average():
-    img = cv2.imread("image.jpg", mode='RGB')
-    print(img)
+    img = cv2.imread("image.jpg")
+    average_color = np.mean(img, axis=(0, 1))
+    print(average_color)
 
 def get_direction():
     color = get_image_average()

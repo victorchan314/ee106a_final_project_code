@@ -4,6 +4,7 @@ from rosflight_msgs.msg import Command
 from trace_ball.get_trace_of_ball_function import get_trace_of_ball
 from camera_color import capture_image, get_direction
 
+import os
 import signal
 import numpy as np
 
@@ -12,22 +13,29 @@ def handler(signum, frame):
 
 def call_computer_vision():
     # return [1, 2, 3, 4][np.random.randint(4)]
-    # signal.alarm(30)
-    #
+    signal.alarm(30)
+    
+    d = -1
+    try:
+        d = get_trace_of_ball()
+        signal.alarm(0)
+    except Exception, exc:
+         pass
+    
+    print("Direction: " + str(d))
+     
+    return d
     # d = -1
-    # try:
-    #     d = get_trace_of_ball()
-    # except Exception, exc:
-    #     pass
+    # capture_image()
+    # 
+    # while not os.path.exists("image.jpg"):
+    #     rospy.sleep(1)
+    # 
+    # d = get_direction()
+    # rospy.sleep(5)
+    # os.system("rm image.jpg")
     # 
     # return d
-    d = -1
-    capture_image()
-    rospy.sleep(10)
-    
-    d = get_direction()
-    
-    return d
 
 def commander():
     rospy.init_node('drone_commander')
@@ -57,7 +65,7 @@ def commander():
         if direction != -1:
             pub.publish(command)
         
-        rospy.sleep(3)
+        rospy.sleep(5)
 
 
 

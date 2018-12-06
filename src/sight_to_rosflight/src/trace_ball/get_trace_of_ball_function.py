@@ -9,7 +9,7 @@ import argparse
 import time
 
 def get_trace_of_ball():
-        num = 1000
+        num = 300
 	ap = argparse.ArgumentParser()
 	ap.add_argument("-v", "--video",
 	                help="path to the (optional) video file")
@@ -85,16 +85,16 @@ def get_trace_of_ball():
 	    print(pts)
 	    print(pts.count(None))
 	    points = []
-	    if pts.count(None) < 60:
+	    if pts.count(None) < 61:
 	        for item in pts:
 	            if item != None:
 	                points.append(item)
 	    first_sum_x = first_sum_y = 0
 	    second_sum_x = second_sum_y = 0
-	    for x, y in points[:int(len(points)/3)]:
+	    for x, y in points[:int(len(points)/2)]:
 	        first_sum_x = first_sum_x + x
 	        first_sum_y = first_sum_y + y
-	    for x, y in points[int(len(points)*2/3):]:
+	    for x, y in points[int(len(points)*1/2):]:
 	        second_sum_x = second_sum_x + x
 	        second_sum_y = second_sum_y + y
 	    # print >> f, "old x", first_sum_x
@@ -105,11 +105,11 @@ def get_trace_of_ball():
 	    print("old y", first_sum_y)
 	    # print("new y", second_sum_y, file=f)
 	    print("new y", second_sum_y)
-	    if 100 < 3 * first_sum_x < second_sum_x:
-	        # print("****** right *************", file=f)
+	    if 100 <  2.5* first_sum_x < second_sum_x:
+	        # prin("****** right *************", file=f)
 	        print("****** right *************")
 	        inst_cache.append("right")
-	    elif first_sum_x > 3 * second_sum_x > 100:
+	    elif first_sum_x > 2.5 * second_sum_x > 100:
 	        # print("****** left *************", file=f)
 	        print("****** left *************")
 	        inst_cache.append("left")
@@ -117,11 +117,11 @@ def get_trace_of_ball():
 	        # print("***** x no action *****************", file=f)
 	        print("***** x no action *****************")
 	        inst_cache.append(None)
-	    if 100 < 3 * first_sum_y < second_sum_y:
+	    if 100 < 2.5 * first_sum_y < second_sum_y:
 	        # print("****** up *************", file=f)
 	        print("****** up *************")
 	        inst_cache.append("up")
-	    elif first_sum_y > 3 * second_sum_y > 100:
+	    elif first_sum_y > 2.5 * second_sum_y > 100:
 	        # print("****** down *************", file=f)
 	        print("****** down *************")
 	        inst_cache.append("down")
@@ -155,3 +155,4 @@ def get_trace_of_ball():
                 cap.release()
                 cv2.destroyAllWindows()
 
+        return -1
