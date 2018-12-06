@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 import rospy
-from rosflight_msgs import Command
+from rosflight_msgs.msg import Command
+from trace_ball.get_trace_of_ball_function import get_trace_of_ball
+
+import numpy as np
 
 def call_computer_vision():
-    '''Placeholder function for a call to the CV module later'''
-    return 1
-    pass
+    # return [1, 2, 3, 4][np.random.randint(4)]
+    return get_trace_of_ball()
 
 def commander():
     rospy.init_node('drone_commander')
@@ -30,9 +32,8 @@ def commander():
             command.x = -0.1
             command.F = 0.1
 
-        print(command)
         pub.publish(command)
-        rospy.sleep(10000)
+        rospy.sleep(3)
 
 
 

@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/Desktop/ee106a_final_project_code/devel
+
+Name: sight_to_rosflight
+Description: Description of sight_to_rosflight
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/ubuntu/Desktop/ee106a_final_project_code/devel/lib 
+Requires: 
